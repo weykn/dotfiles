@@ -26,7 +26,7 @@ client.background       #f5f0fa
 # Autostart
 exec_always --no-startup-id sh -c 'pkill -x polybar; polybar'
 exec_always --no-startup-id picom
-exec_always --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/arch.png
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/bg.png
 
 # Gaps
 gaps inner 5
