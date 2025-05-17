@@ -1,0 +1,19 @@
+/* ROUNDED THEME FOR ROFI */
+/* Author: Newman Sanchez (https://github.com/newmanls) */
+
+* {
+    bg0:    #1e1b22;     // Waybar background
+    bg1:    #2e2a38;     // Waybar active workspace & modules
+    bg2:    #3c3a44;     // Hyprland inactive border
+    bg3:    #7b5ea9;     // Hyprland active border / Waybar accent
+    fg0:    #f5f0fa;     // Waybar text
+    fg1:    #ffffff;     // Active workspace text / highlights
+    fg2:    #aaaaaa;     // Inactive workspace text
+    fg3:    #7b5ea9;     // Reused accent (clock, memory, etc.)
+}
+
+@import "~/.config/rofi/rounded-template.rasi"
+
+element selected {
+    text-color: @bg1;
+}
