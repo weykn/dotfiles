@@ -81,6 +81,13 @@
       "keyColor": "red"
     },
     {
+"type": "battery",
+"key": "    Battery",
+"keyColor": "green",
+"format": "{4} {5}",
+"id": "BAT0"
+},
+    {
       "type": "custom",
       "format": "└──────────────────────────────────────────┘"
     },
