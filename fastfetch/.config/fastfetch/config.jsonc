@@ -70,6 +70,12 @@
       "keyColor": "magenta"
     },
     {
+      "type": "disk",
+      "key": "  󰋊 Disk",
+      "keyColor": "magenta",
+      "format": "{1} / {2} ({3})"
+    },
+    {
       "type": "command",
       "key": "  󱦟 OS Age",
       "keyColor": "red",
@@ -81,12 +87,12 @@
       "keyColor": "red"
     },
     {
-"type": "battery",
-"key": "    Battery",
-"keyColor": "green",
-"format": "{4} {5}",
-"id": "BAT0"
-},
+      "type": "battery",
+      "key": "    Battery",
+      "keyColor": "green",
+      "format": "{4} {5}",
+      "id": "BAT0"
+    },
     {
       "type": "custom",
       "format": "└──────────────────────────────────────────┘"
