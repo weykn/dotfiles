@@ -38,7 +38,7 @@
     {
       "type": "display",
       "key": "  󰍹 Display",
-      "format": "{1}x{2} @ {3}Hz [{7}]",
+      "format": "{1}x{2} @ {3}Hz",
       "keyColor": "green"
     },
     {
@@ -54,7 +54,7 @@
     },
     {
       "type": "cpu",
-      "format": "{1} @ {7}",
+      "format": "{1}",
       "key": "   CPU",
       "keyColor": "blue"
     },
