@@ -5,19 +5,7 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#E36464",
-          "style": "plain",
-          "template": "@{{ .UserName }} ",
-          "type": "session"
-        },
-        {
-          "foreground": "#62ED8B",
-          "style": "plain",
-          "template": "\u279c",
-          "type": "text"
-        },
-        {
-          "foreground": "#56B6C2",
+          "foreground": "#7b5ea9",
           "properties": {
             "style": "folder"
           },
