@@ -70,7 +70,7 @@
     },
     {
       "type": "gpu",
-      "format": "{1} {2}",
+      "format": "{2}",
       "key": "  󰊴 GPU     ",
       "keyColor": "#3aff00"
     },
