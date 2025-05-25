@@ -103,10 +103,10 @@
     },
     {
       "type": "battery",
-      "key": "    Battery",
+      "key": "  \uf240 Battery ",
       "format": "{4} {5}",
       "id": "BAT0",
-      "keyColor": "#8b00ff"
+      "keyColor": "#0080ff"
     },
     {
       "type": "custom",

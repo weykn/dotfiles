@@ -24,15 +24,18 @@ client.placeholder      #1e1b22  #1e1b22   #ffffff  #1e1b22    #1e1b22
 client.background       #f5f0fa
 
 # Autostart
+exec_always --no-startup-id clipmenud
 exec_always --no-startup-id sh -c 'pkill -x polybar; polybar'
 exec_always --no-startup-id picom
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/bg.png
+exec_always --no-startup-id flameshot
 
 # Gaps
 gaps inner 5
 gaps outer 5
 
 # Shortcuts
+bindsym $mod+v exec clipmenu
 bindsym $mod+period exec rofi -show emoji -modi emoji
 bindsym $mod+s exec flameshot gui
 bindsym $mod+e exec i3lock -c 000000
@@ -174,7 +177,7 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
