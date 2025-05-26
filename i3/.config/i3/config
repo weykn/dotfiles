@@ -9,6 +9,8 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# SUPER = Mod4
+# ALT = Mod1
 set $mod Mod4
 
 # Hide title bar
@@ -27,7 +29,7 @@ client.background       #f5f0fa
 exec_always --no-startup-id clipmenud
 exec_always --no-startup-id sh -c 'pkill -x polybar; polybar'
 exec_always --no-startup-id picom
-exec_always --no-startup-id feh --bg-scale ~/.config/i3/bg.png
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/bg.jpeg
 exec_always --no-startup-id flameshot
 
 # Gaps
