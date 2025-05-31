@@ -2,180 +2,413 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Home</title>
+  <title>Custom Home</title>
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:'Segoe UI',sans-serif;
-      background:linear-gradient(135deg,#1e1e2e,#11111b);
-      color:#cdd6f4;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      min-height:100vh;
-      padding:24px;
-      text-align:center;
+    /* ===========================
+       CSS Variables / Defaults
+       =========================== */
+    :root {
+      /* Colours */
+      --bg-1: #1e1e2e;
+      --bg-2: #11111b;
+      --accent-1: #89b4fa;
+      --accent-2: #f38ba8;
+      --accent-3: #a6e3a1;
+
+      /* Gradient angle */
+      --gradient-angle: 135deg;
+
+      /* Font & Shimmer */
+      --font-size: 16px;
+      --shimmer-speed: 3s;
     }
 
-    h1{
-      font-size:3em;
-      margin-bottom:12px;
-      background:linear-gradient(90deg,#89b4fa,#f38ba8,#a6e3a1);
-      background-size:200% auto;
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      animation:shimmer 3s infinite alternate;
+    /* ===========================
+       Global / Body
+       =========================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    @keyframes shimmer{
-      0%{background-position:0% center}
-      100%{background-position:100% center}
-    }
-    #clock{font-size:1.5em;color:#a6e3a1;letter-spacing:1px}
-    #uptime{font-size:.9em;color:#89b4fa;margin-bottom:24px}
-
-    form{
-      backdrop-filter:blur(10px);
-      background:rgba(30,30,46,.4);
-      padding:14px 18px;
-      border-radius:12px;
-      box-shadow:0 4px 30px rgba(0,0,0,.25);
-      margin-bottom:40px;
-      width:100%;
-      max-width:440px;
-    }
-    input[type="text"]{
-      background:rgba(0,0,0,.3);
-      border:none;
-      padding:12px 20px;
-      border-radius:10px;
-      font-size:1em;
-      color:#cdd6f4;
-      width:100%;
-      outline:none;
-      transition:.3s;
-      text-align:center;
-    }
-    input[type="text"]::placeholder{color:#a6adc8}
-    input[type="text"]:focus{
-      background:rgba(0,0,0,.5);
-      box-shadow:0 0 10px #89b4fa;
+    body {
+      font: var(--font-size) 'Segoe UI', sans-serif;
+      background: linear-gradient(
+        var(--gradient-angle),
+        var(--bg-1),
+        var(--bg-2)
+      );
+      color: #cdd6f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      text-align: center;
     }
 
-    .links{
-      display:flex;
-      gap:18px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin-bottom:40px;
+    /* ===========================
+       Heading / Shimmer
+       =========================== */
+    h1 {
+      font-size: 3em;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer var(--shimmer-speed) infinite alternate;
     }
-    .links a{
-      color:#89b4fa;
-      text-decoration:none;
-      font-size:1.05em;
-      padding:10px 18px;
-      border-radius:10px;
-      background:rgba(255,255,255,.05);
-      transition:.3s ease;
-    }
-    .links a:hover{
-      color:#f38ba8;
-      background:rgba(255,255,255,.1);
-      transform:translateY(-3px);
-    }
-
-    .device-info{
-      width:100%;
-      max-width:760px;
-      background:rgba(0,0,0,.35);
-      padding:22px 26px;
-      border-radius:16px;
-      backdrop-filter:blur(8px);
-      box-shadow:0 0 18px rgba(0,0,0,.35);
-    }
-    .device-info h2{
-      margin-bottom:14px;
-      color:#a6e3a1;
-      font-size:1.3em;
+    @keyframes shimmer {
+      0% {
+        background-position: 0% center;
+      }
+      100% {
+        background-position: 100% center;
+      }
     }
 
-    .device-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-      gap:18px;
-      margin-bottom:18px;
+    /* ===========================
+       Clock & Uptime
+       =========================== */
+    #clock {
+      font-size: 1.5em;
+      color: var(--accent-3);
+      letter-spacing: 1px;
     }
-    .card{
-      background:rgba(255,255,255,.07);
-      border-radius:12px;
-      padding:14px 10px;
-      min-height:90px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      backdrop-filter:blur(6px);
-      box-shadow:0 0 10px rgba(0,0,0,.4);
-      transition:transform .25s ease;
+    #uptime {
+      font-size: 0.9em;
+      color: var(--accent-1);
+      margin-bottom: 24px;
     }
-    .card:hover{transform:translateY(-4px) scale(1.03)}
-    .value{font-weight:600;font-size:1.15em;color:#a6e3a1;margin-bottom:4px}
-    .label{font-size:.75em;color:#89b4fa;letter-spacing:.5px;text-transform:uppercase}
 
-    .more-info{
+    /* ===========================
+       Search Form
+       =========================== */
+    form {
+      backdrop-filter: blur(10px);
+      background: rgba(30, 30, 46, 0.4);
+      padding: 14px 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+      margin-bottom: 40px;
+      width: 100%;
+      max-width: 440px;
+      transition: backdrop-filter 0.3s;
+    }
+    input[type="text"] {
+      background: rgba(0, 0, 0, 0.3);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 1em;
+      color: #cdd6f4;
+      width: 100%;
+      outline: none;
+      transition: 0.3s;
+      text-align: center;
+    }
+    input[type="text"]::placeholder {
+      color: #a6adc8;
+    }
+    input[type="text"]:focus {
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 10px var(--accent-1);
+    }
+
+    /* ===========================
+       Quick Links
+       =========================== */
+    .links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .links a {
+      color: var(--accent-1);
+      text-decoration: none;
+      font-size: 1.05em;
+      padding: 10px 18px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      transition: 0.3s ease;
+    }
+    .links a:hover {
+      color: var(--accent-2);
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+    }
+
+    /* ===========================
+       System Info Block
+       =========================== */
+    .device-info {
+      width: 100%;
+      max-width: 760px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 22px 26px;
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.35);
+      margin-bottom: 40px;
+    }
+    .device-info h2 {
+      margin-bottom: 14px;
+      color: var(--accent-3);
+      font-size: 1.3em;
+    }
+    .device-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      padding: 14px 10px;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+      transition: transform 0.25s, backdrop-filter 0.3s, border-radius 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+    .value {
+      font-weight: 600;
+      font-size: 1.15em;
+      color: var(--accent-3);
+      margin-bottom: 4px;
+    }
+    .label {
+      font-size: 0.75em;
+      color: var(--accent-1);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .more-info {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px 24px;
-      font-size:.9em;
-      margin-top:16px;
+      font-size: 0.9em;
+      margin-top: 16px;
     }
-    .row{
+    .row {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      background: rgba(255,255,255,.05);
-      padding:10px 12px;
-      border-radius:10px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 12px;
+      border-radius: 10px;
       word-break: break-word;
       text-align: left;
       backdrop-filter: blur(4px);
-      box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
+      box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
     }
-    .row .label{
-      font-weight:600;
-      font-size: .8em;
-      color:#94e2d5;
-      margin-bottom:2px;
+    .row .label {
+      font-weight: 600;
+      font-size: 0.8em;
+      color: #94e2d5;
+      margin-bottom: 2px;
     }
-    .row span:not(.label){
-      color:#cdd6f4;
-      font-size:.85em;
+    .row span:not(.label) {
+      color: #cdd6f4;
+      font-size: 0.85em;
     }
-    @media(max-width:600px){
-      .more-info{
-        grid-template-columns:1fr;
+    @media (max-width: 600px) {
+      .more-info {
+        grid-template-columns: 1fr;
       }
+    }
+
+    /* ===========================
+       Settings Button & Panel
+       =========================== */
+    #settingsBtn {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      font-size: 1.4em;
+      padding: 0.2em 0.4em;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.4);
+      border: none;
+      color: var(--accent-1);
+      cursor: pointer;
+      z-index: 1000;
+    }
+    #settingsPanel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(300px, 90vw, 600px);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #1e1e2e;
+      border-radius: 16px;
+      padding: 24px;
+      border: 2px solid var(--accent-1);
+      backdrop-filter: blur(0px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      display: none;
+      color: #cdd6f4;
+      transition: backdrop-filter 0.3s;
+    }
+    #settingsPanel h2 {
+      margin-bottom: 16px;
+      background: var(--accent-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .setting-block {
+      margin-bottom: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 14px;
+    }
+    .setting-block:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+    .setting-block > h3 {
+      margin-bottom: 10px;
+      color: var(--accent-2);
+      font-size: 1.1em;
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .setting-row label {
+      flex: 1 1 160px;
+      text-align: left;
+      font-size: 0.95em;
+    }
+    .setting-row input[type="text"],
+    .setting-row input[type="url"],
+    .setting-row input[type="color"],
+    .setting-row input[type="number"],
+    .setting-row input[type="range"] {
+      flex: 2 1 180px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      border: 1px solid #3a3a55;
+      background: #0f0f17;
+      color: #cdd6f4;
+    }
+    .setting-row input[type="checkbox"] {
+      transform: scale(1.2);
+    }
+
+    /* Links table inside Settings */
+    #linksTable {
+      margin-top: 8px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #linksTable td {
+      padding: 4px;
+    }
+    #linksTable input {
+      width: 100%;
+      padding: 4px;
+      border-radius: 4px;
+      border: 1px solid #3a3a55;
+      background: #0f0f17;
+      color: #cdd6f4;
+    }
+    .link-remove {
+      cursor: pointer;
+      font-weight: bold;
+      color: var(--accent-2);
+      text-align: center;
+    }
+    #addLinkBtn {
+      margin-top: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      border: 1px solid var(--accent-1);
+      border-radius: 6px;
+      background: none;
+      color: var(--accent-1);
+      font-size: 0.95em;
+    }
+
+    /* Settings Buttons */
+    #settingsButtons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 16px;
+    }
+    #settingsButtons button {
+      cursor: pointer;
+      padding: 6px 16px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95em;
+      transition: background 0.2s;
+    }
+    #saveBtn {
+      background: var(--accent-1);
+      color: #1e1e2e;
+    }
+    #closeBtn {
+      background: #444;
+      color: #cdd6f4;
+    }
+    #resetBtn {
+      background: var(--accent-2);
+      color: #1e1e2e;
+    }
+    #saveBtn:hover {
+      background: #6a8cd4;
+    }
+    #closeBtn:hover {
+      background: #555;
+    }
+    #resetBtn:hover {
+      background: #d8678f;
     }
   </style>
 </head>
 <body>
-  <h1>Hello&nbsp;World!</h1>
-
-  <div id="clock">--:--:--</div>
+  <!-- ===========================
+       Heading / Clock / Uptime
+       =========================== -->
+  <h1 id="pageTitle">Hello World!</h1>
+  <div id="clock">--:--</div>
   <div id="uptime">Page uptime: 00:00:00</div>
 
-  <form action="https://www.google.com/search" method="GET">
-    <input type="text" name="q" placeholder="Search Google" autofocus>
+  <!-- ===========================
+       Search Form
+       =========================== -->
+  <form id="searchForm" action="https://www.google.com/search" method="GET">
+    <input type="text" name="q" id="searchInput" placeholder="Search Google" autofocus>
   </form>
 
-  <div class="links">
-    <a href="https://github.com/">GitHub</a>
-    <a href="https://reddit.com/">Reddit</a>
-    <a href="https://youtube.com/">YouTube</a>
-    <a href="https://chat.openai.com/">ChatGPT</a>
-  </div>
+  <!-- ===========================
+       Quick Links
+       =========================== -->
+  <div class="links" id="quickLinks"></div>
 
-  <div class="device-info">
+  <!-- ===========================
+       System Info Block
+       =========================== -->
+  <div class="device-info" id="sysInfo">
     <h2>System Information</h2>
     <div class="device-grid">
       <div class="card"><span class="value" id="screenVal"></span><span class="label">Screen</span></div>
@@ -193,45 +426,457 @@
     </div>
   </div>
 
+  <!-- ===========================
+       Settings Button & Panel
+       =========================== -->
+  <button id="settingsBtn">⚙️</button>
+
+  <div id="settingsPanel">
+    <h2>Settings</h2>
+
+    <!-- Colours & Gradient -->
+    <div class="setting-block">
+      <h3>Visuals</h3>
+      <div class="setting-row">
+        <label>Background #1</label>
+        <input type="color" id="setBg1">
+      </div>
+      <div class="setting-row">
+        <label>Background #2</label>
+        <input type="color" id="setBg2">
+      </div>
+      <div class="setting-row">
+        <label>Accent #1</label>
+        <input type="color" id="setA1">
+      </div>
+      <div class="setting-row">
+        <label>Accent #2</label>
+        <input type="color" id="setA2">
+      </div>
+      <div class="setting-row">
+        <label>Accent #3</label>
+        <input type="color" id="setA3">
+      </div>
+      <div class="setting-row">
+        <label>Gradient Angle (0–360°)</label>
+        <input type="number" id="setAngle" min="0" max="360">
+      </div>
+      <div class="setting-row">
+        <label>Base Font Size (px)</label>
+        <input type="range" id="setFont" min="12" max="24">
+      </div>
+      <div class="setting-row">
+        <label>Shimmer Speed (s)</label>
+        <input type="range" id="setShimmer" min="1" max="10">
+      </div>
+    </div>
+
+    <!-- Heading: Title Text & Visibility -->
+    <div class="setting-block">
+      <h3>Heading</h3>
+      <div class="setting-row">
+        <label><input type="checkbox" id="setShowTitle"> Show Title</label>
+      </div>
+      <div class="setting-row">
+        <label>Title Text</label>
+        <input type="text" id="setTitle">
+      </div>
+    </div>
+
+    <!-- Search Bar Controls -->
+    <div class="setting-block">
+      <h3>Search Bar</h3>
+      <div class="setting-row">
+        <label><input type="checkbox" id="setShowSearch"> Show Search Bar</label>
+      </div>
+      <div class="setting-row">
+        <label>Placeholder Text</label>
+        <input type="text" id="setSearchPH">
+      </div>
+      <div class="setting-row">
+        <label>Engine URL<br><small>{q} → query</small></label>
+        <input type="url" id="setSearchURL">
+      </div>
+    </div>
+
+    <!-- Data Blocks: Clock, Uptime, System Info & Visibility -->
+    <div class="setting-block">
+      <h3>Data Blocks</h3>
+      <div class="setting-row">
+        <label><input type="checkbox" id="setShowClock"> Show Clock</label>
+      </div>
+      <div class="setting-row">
+        <label><input type="checkbox" id="setClock12"> Use 12-hour Clock</label>
+      </div>
+      <div class="setting-row">
+        <label><input type="checkbox" id="setShowSeconds"> Show Seconds</label>
+      </div>
+      <div class="setting-row">
+        <label><input type="checkbox" id="setShowUptime"> Show Uptime Counter</label>
+      </div>
+      <div class="setting-row">
+        <label><input type="checkbox" id="setShowSys"> Show System-Info Panel</label>
+      </div>
+    </div>
+
+    <!-- Quick-Links Controls + Manager -->
+    <div class="setting-block">
+      <h3>Quick-Links</h3>
+      <div class="setting-row">
+        <label><input type="checkbox" id="setShowLinks"> Show Quick-Links</label>
+      </div>
+      <div class="setting-row">
+        <label><input type="checkbox" id="setLinksNewTab"> Open Links in New Tab</label>
+      </div>
+      <table id="linksTable"></table>
+      <button id="addLinkBtn">+ Add Link</button>
+    </div>
+
+    <!-- Save, Close, Reset -->
+    <div id="settingsButtons">
+      <button id="saveBtn">Save</button>
+      <button id="closeBtn">Close</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+  </div>
+
+  <!-- ===========================
+       Scripts
+       =========================== -->
   <script>
-    const start = Date.now();
-    const $ = id => document.getElementById(id);
-    const fmtTime = d => d.toLocaleTimeString(undefined, { hour12: false });
-    const fmtUp = ms => {
-      const s = Math.floor(ms / 1000);
-      return [s / 3600 | 0, s / 60 % 60 | 0, s % 60].map(v => String(v).padStart(2, '0')).join(':');
+    /* ===========================
+       Default Settings Object
+       =========================== */
+    const DEFAULTS = {
+      /* Colours */
+      pageTitle: 'Hello World!',
+      bg1: '#1e1e2e',
+      bg2: '#11111b',
+      a1: '#89b4fa',
+      a2: '#f38ba8',
+      a3: '#a6e3a1',
+
+      /* Gradient & Effects */
+      gradientAngle: 135,   // degrees
+      fontSize: 16,         // px
+      shimmer: 3,           // seconds
+
+      /* Title visibility */
+      showTitle: true,
+
+      /* Search bar */
+      showSearch: true,
+      searchPH: 'Search Google',
+      searchURL: 'https://www.google.com/search?q={q}',
+
+      /* Data blocks */
+      showClock: true,
+      clock12: false,
+      showSeconds: true,
+      showUptime: true,
+      showSys: true,
+
+      /* Quick-links */
+      showLinks: true,
+      linksNewTab: false,
+      links: [
+        { label: 'GitHub', url: 'https://github.com/' },
+        { label: 'Reddit', url: 'https://reddit.com/' },
+        { label: 'YouTube', url: 'https://youtube.com/' },
+        { label: 'ChatGPT', url: 'https://chat.openai.com/' }
+      ]
     };
-    const gpuInfo = () => {
+
+    /* ===========================
+       Load / Save Settings
+       =========================== */
+    function loadSettings() {
       try {
-        const c = document.createElement('canvas');
-        const gl = c.getContext('webgl') || c.getContext('experimental-webgl');
-        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
-        return gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) + ' – ' + gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
+        return { ...DEFAULTS, ...JSON.parse(localStorage.getItem('homeSettings') || '{}') };
+      } catch {
+        return { ...DEFAULTS };
+      }
+    }
+    function storeSettings() {
+      localStorage.setItem('homeSettings', JSON.stringify(SETTINGS));
+    }
+
+    let SETTINGS = loadSettings();
+
+    /* ===========================
+       Apply Settings to Page
+       =========================== */
+    function applySettings() {
+      const r = document.documentElement;
+
+      /* Colours & gradient */
+      r.style.setProperty('--bg-1', SETTINGS.bg1);
+      r.style.setProperty('--bg-2', SETTINGS.bg2);
+      r.style.setProperty('--accent-1', SETTINGS.a1);
+      r.style.setProperty('--accent-2', SETTINGS.a2);
+      r.style.setProperty('--accent-3', SETTINGS.a3);
+      r.style.setProperty('--gradient-angle', SETTINGS.gradientAngle + 'deg');
+
+      /* Font & shimmer */
+      r.style.setProperty('--font-size', SETTINGS.fontSize + 'px');
+      r.style.setProperty('--shimmer-speed', SETTINGS.shimmer + 's');
+
+      /* Title text & visibility */
+      pageTitle.textContent = SETTINGS.pageTitle;
+      pageTitle.style.display = SETTINGS.showTitle ? '' : 'none';
+
+      /* Search bar */
+      searchForm.style.display = SETTINGS.showSearch ? '' : 'none';
+      searchInput.placeholder = SETTINGS.searchPH;
+      const baseURL = SETTINGS.searchURL;
+      if (baseURL.includes('{q}')) {
+        const prefix = baseURL.split('{q}')[0];
+        searchForm.action = prefix;
+        searchInput.setAttribute('name', 'q');
+      } else {
+        searchForm.action = SETTINGS.searchURL;
+        searchInput.setAttribute('name', 'q');
+      }
+
+      /* Clock / uptime toggles */
+      clock.style.display = SETTINGS.showClock ? '' : 'none';
+      uptime.style.display  = SETTINGS.showUptime ? '' : 'none';
+      clock12  = SETTINGS.clock12;
+      showSeconds = SETTINGS.showSeconds;
+
+      /* System-info panel toggle */
+      sysInfo.style.display = SETTINGS.showSys ? '' : 'none';
+
+      /* Quick-links toggle */
+      quickLinksContainer.style.display = SETTINGS.showLinks ? 'flex' : 'none';
+      buildQuickLinks();
+
+      /* Links open in new tab? */
+      Array.from(quickLinksContainer.children).forEach(a => {
+        a.target = SETTINGS.linksNewTab ? '_blank' : '';
+      });
+    }
+
+    /* ===========================
+       Clock & Uptime Logic
+       =========================== */
+    let clock12     = SETTINGS.clock12;
+    let showSeconds = SETTINGS.showSeconds;
+    const startTime = Date.now();
+
+    function fmtTime(d) {
+      if (!showSeconds) {
+        return d.toLocaleTimeString(undefined, {
+          hour12:   clock12,
+          hour:     '2-digit',
+          minute:   '2-digit'
+        });
+      }
+      return d.toLocaleTimeString(undefined, { hour12: clock12 });
+    }
+    function fmtUp(ms) {
+      const s   = Math.floor(ms / 1000);
+      const h   = Math.floor(s / 3600);
+      const m   = Math.floor((s % 3600) / 60);
+      const sec = s % 60;
+      return [h, m, sec].map(v => String(v).padStart(2, '0')).join(':');
+    }
+    function tick() {
+      clock.textContent  = fmtTime(new Date());
+      uptime.textContent = 'Page uptime: ' + fmtUp(Date.now() - startTime);
+    }
+    setInterval(tick, 1000);
+    tick();
+
+    /* ===========================
+       System-Info Population
+       =========================== */
+    function $(id) {
+      return document.getElementById(id);
+    }
+    function getGPU() {
+      try {
+        const canvas = document.createElement('canvas');
+        const gl     = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        const dbg    = gl.getExtension('WEBGL_debug_renderer_info');
+        return (
+          gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) +
+          ' – ' +
+          gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)
+        );
       } catch {
         return 'Unavailable';
       }
-    };
-
+    }
     $('platformVal').textContent = navigator.platform;
-    $('coresVal').textContent = navigator.hardwareConcurrency || '—';
-    $('memoryVal').textContent = (navigator.deviceMemory || '—') + ' GB';
+    $('coresVal').textContent    = navigator.hardwareConcurrency || '—';
+    $('memoryVal').textContent   = (navigator.deviceMemory || '—') + ' GB';
     $('timezoneVal').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    $('gpuVal').textContent = gpuInfo();
-    $('uaVal').textContent = navigator.userAgent;
-    $('langVal').textContent = navigator.language || '—';
-
-    function update() {
-      $('clock').textContent = fmtTime(new Date());
-      $('uptime').textContent = 'Page uptime: ' + fmtUp(Date.now() - start);
+    $('gpuVal').textContent      = getGPU();
+    $('uaVal').textContent       = navigator.userAgent;
+    $('langVal').textContent     = navigator.language || '—';
+    function updateInfo() {
       $('windowVal').textContent = `${innerWidth}×${innerHeight}`;
       $('onlineVal').textContent = navigator.onLine ? 'Yes' : 'No';
       $('screenVal').textContent = `${screen.width}×${screen.height}`;
     }
-    update();
-    setInterval(update, 1000);
-    addEventListener('resize', update);
-    addEventListener('online', update);
-    addEventListener('offline', update);
+    window.addEventListener('resize', updateInfo);
+    window.addEventListener('online', updateInfo);
+    window.addEventListener('offline', updateInfo);
+    updateInfo();
+
+    /* ===========================
+       Quick-Links Builder
+       =========================== */
+    const quickLinksContainer = document.getElementById('quickLinks');
+    function buildQuickLinks() {
+      quickLinksContainer.innerHTML = '';
+      SETTINGS.links.forEach((linkObj) => {
+        const a = document.createElement('a');
+        a.textContent = linkObj.label;
+        a.href        = linkObj.url;
+        a.target      = SETTINGS.linksNewTab ? '_blank' : '';
+        quickLinksContainer.appendChild(a);
+      });
+    }
+
+    /* ===========================
+       Settings Panel Logic
+       =========================== */
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsPanel = document.getElementById('settingsPanel');
+    const saveBtn = document.getElementById('saveBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const addLinkBtn = document.getElementById('addLinkBtn');
+    const linksTable = document.getElementById('linksTable');
+
+    /* Open Settings: populate form fields from SETTINGS */
+    function openSettings() {
+      // Colours
+      setBg1.value = SETTINGS.bg1;
+      setBg2.value = SETTINGS.bg2;
+      setA1.value  = SETTINGS.a1;
+      setA2.value  = SETTINGS.a2;
+      setA3.value  = SETTINGS.a3;
+
+      // Gradient angle
+      setAngle.value = SETTINGS.gradientAngle;
+
+      // Font & shimmer
+      setFont.value    = SETTINGS.fontSize;
+      setShimmer.value = SETTINGS.shimmer;
+
+      // Title visibility & text
+      setShowTitle.checked = SETTINGS.showTitle;
+      setTitle.value       = SETTINGS.pageTitle;
+
+      // Search bar
+      setShowSearch.checked = SETTINGS.showSearch;
+      setSearchPH.value     = SETTINGS.searchPH;
+      setSearchURL.value    = SETTINGS.searchURL;
+
+      // Data blocks
+      setShowClock.checked   = SETTINGS.showClock;
+      setClock12.checked     = SETTINGS.clock12;
+      setShowSeconds.checked = SETTINGS.showSeconds;
+      setShowUptime.checked  = SETTINGS.showUptime;
+      setShowSys.checked     = SETTINGS.showSys;
+
+      // Quick links
+      setShowLinks.checked   = SETTINGS.showLinks;
+      setLinksNewTab.checked = SETTINGS.linksNewTab;
+
+      // Build links table
+      linksTable.innerHTML = '';
+      SETTINGS.links.forEach((l) => addLinkRow(l.label, l.url));
+
+      settingsPanel.style.display = 'block';
+    }
+
+    /* Add a new row to the links table in Settings */
+    function addLinkRow(label = '', url = '') {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="text" value="${label}" placeholder="Label"></td>
+        <td><input type="url" value="${url}" placeholder="https://..."></td>
+        <td class="link-remove" title="Remove">✖</td>
+      `;
+      tr.querySelector('.link-remove').onclick = () => tr.remove();
+      linksTable.appendChild(tr);
+    }
+
+    /* Save Settings: read form fields into SETTINGS, persist, re-apply */
+    function saveSettings() {
+      // Colours
+      SETTINGS.bg1 = setBg1.value;
+      SETTINGS.bg2 = setBg2.value;
+      SETTINGS.a1  = setA1.value;
+      SETTINGS.a2  = setA2.value;
+      SETTINGS.a3  = setA3.value;
+
+      // Gradient & Effects
+      SETTINGS.gradientAngle = parseInt(setAngle.value, 10) || 0;
+      SETTINGS.fontSize      = parseInt(setFont.value, 10);
+      SETTINGS.shimmer       = parseInt(setShimmer.value, 10);
+
+      // Title visibility & text
+      SETTINGS.showTitle = setShowTitle.checked;
+      SETTINGS.pageTitle = setTitle.value || '';
+
+      // Search bar
+      SETTINGS.showSearch = setShowSearch.checked;
+      SETTINGS.searchPH   = setSearchPH.value;
+      SETTINGS.searchURL  = setSearchURL.value;
+
+      // Data blocks
+      SETTINGS.showClock   = setShowClock.checked;
+      SETTINGS.clock12     = setClock12.checked;
+      SETTINGS.showSeconds = setShowSeconds.checked;
+      SETTINGS.showUptime  = setShowUptime.checked;
+      SETTINGS.showSys     = setShowSys.checked;
+
+      // Quick links
+      SETTINGS.showLinks   = setShowLinks.checked;
+      SETTINGS.linksNewTab = setLinksNewTab.checked;
+
+      // Collect links from table
+      SETTINGS.links = Array.from(linksTable.querySelectorAll('tr')).map((row) => {
+        const [labInput, urlInput] = row.querySelectorAll('input');
+        return {
+          label: labInput.value.trim(),
+          url:   urlInput.value.trim()
+        };
+      }).filter((l) => l.label && l.url);
+
+      storeSettings();
+      applySettings();
+      // Panel stays open after saving
+    }
+
+    /* Reset to defaults */
+    function resetSettings() {
+      if (confirm('Reset all customisations to defaults?')) {
+        localStorage.removeItem('homeSettings');
+        SETTINGS = loadSettings();
+        applySettings();
+        openSettings();
+      }
+    }
+
+    /* ===========================
+       Wire Up Event Listeners
+       =========================== */
+    settingsBtn.onclick = openSettings;
+    closeBtn.onclick    = () => (settingsPanel.style.display = 'none');
+    saveBtn.onclick     = saveSettings;
+    resetBtn.onclick    = resetSettings;
+    addLinkBtn.onclick  = () => addLinkRow();
+
+    /* ===========================
+       Initial Page Setup
+       =========================== */
+    applySettings();
   </script>
 </body>
 </html>
