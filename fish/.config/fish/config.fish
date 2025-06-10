@@ -14,13 +14,13 @@ bind \ck 'clear; commandline -f repaint'
 function fhist
     set cmd (history | fzf --tac)
     if test -n "$cmd"
-        eval $cmd
+        echo -n $cmd | xclip -selection clipboard
     end
 end
 
 # Fuzzy CD
 function fcd
-    set choice (fd . | fzf)
+    set choice (fd --hidden --exclude .git . | fzf)
     if test -z "$choice"
         return
     end
