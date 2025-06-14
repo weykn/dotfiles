@@ -1,0 +1,43 @@
+[general]
+bars = 80
+framerate = 60
+autosens = 1
+sleep_timer = 0
+sens = 1
+lower_cutoff_freq = 50
+higher_cutoff_freq = 10000
+
+[color]
+gradient = 1
+gradient_count = 3
+gradient_color_1 = "#aa1e1b"     ; blood red 💉
+gradient_color_2 = "#7b5ea9"     ; violet 💜
+gradient_color_3 = "#f5f0fa"     ; light lavender 💅
+background = "#1e1b22"           ; dark base (slightly deeper than your bg)
+
+[output]
+method = ncurses
+bar_delimiter = " "
+raw_target = /dev/stdout
+data_format = ascii
+channels = stereo
+bit_format = 16bit
+bar_width = 2
+bar_spacing = 1
+
+[smoothing]
+integral = 90
+monstercat = 1
+waves = 0
+
+[eq]
+; you can tweak for extra juice
+1 = 1
+2 = 1
+3 = 1
+4 = 1
+5 = 1
+6 = 1
+7 = 1
+8 = 1
+
