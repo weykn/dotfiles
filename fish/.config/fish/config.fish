@@ -30,3 +30,6 @@ function fcd
         cd (dirname "$choice")
     end
 end
+
+# Created by `pipx` on 2025-06-10 17:58:42
+set PATH $PATH /home/sami/.local/bin
