@@ -31,6 +31,7 @@ exec_always --no-startup-id sh -c 'pkill -x polybar; polybar'
 exec_always --no-startup-id sh -c 'pkill -x picom; picom'
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/bg.jpeg
 exec_always --no-startup-id flameshot
+exec_always --no-startup-id ~/.config/i3/autotile.py
 
 # Gaps
 gaps inner 5
