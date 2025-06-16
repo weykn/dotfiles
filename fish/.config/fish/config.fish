@@ -6,15 +6,14 @@ afetch
 # Keybinds
 bind \cf fcd
 bind \ch fhist
-bind \ck 'clear; commandline -f repaint'
-
-# Functions
 
 # Fuzzy History
 function fhist
     set cmd (history | fzf --tac)
     if test -n "$cmd"
         echo -n $cmd | xclip -selection clipboard
+        echo "Copied: $cmd"
+        commandline -f repaint
     end
 end
 
@@ -24,12 +23,18 @@ function fcd
     if test -z "$choice"
         return
     end
+
     if test -d "$choice"
         cd "$choice"
+        echo "Changed directory: $choice"
     else
-        cd (dirname "$choice")
+        set new_path (dirname "$choice")
+        cd $new_path
+        echo "Changed directory: $new_path"
     end
+    
+    commandline -f repaint
 end
 
-# Created by `pipx` on 2025-06-10 17:58:42
-set PATH $PATH /home/sami/.local/bin
+# For pipx 
+set PATH $PATH ~/.local/bin
