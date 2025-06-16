@@ -13,7 +13,7 @@ gradient_count = 3
 gradient_color_1 = "#aa1e1b"     ; blood red 💉
 gradient_color_2 = "#7b5ea9"     ; violet 💜
 gradient_color_3 = "#f5f0fa"     ; light lavender 💅
-background = "#1e1b22"           ; dark base (slightly deeper than your bg)
+
 
 [output]
 method = ncurses

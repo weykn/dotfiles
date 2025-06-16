@@ -1,1 +1,107 @@
-@theme "~/.config/rofi/rounded-purple-dark.rasi"
+/* @theme "~/.config/rofi/i3-direct-match.rasi" */
+
+* {
+    g-spacing: 10px;
+    g-margin: 0;
+    
+    /* Colors directly mapped from your i3 config */
+    b-color: #3c3a44FF;         /* client.unfocused border */
+    fg-color: #FFFFFFFF;        /* client.focused text (main foreground) */
+    fgp-color: #aaaaaaFF;       /* client.unfocused text (placeholder text) */
+    
+    hl-color: #5a3e7aFF;        /* client.focused background (highlight/selected background) */
+    hlt-color: #FFFFFFFF;       /* client.focused text (highlighted text) */
+    alt-color: #6b5d7aFF;       /* client.focused_inactive background (alternate row background) */
+    
+    wbg-color: #2e2a38BB;       /* client.unfocused background, with transparency for window */
+    w-border-color: #7b5ea9FF;  /* client.focused border (window border) */
+    
+    b-radius: 8px;
+    g-padding: 8px;
+    w-border: 2px solid;
+    w-padding: 12px;
+}
+
+
+
+listview {
+    columns: 1;
+    lines: 7;
+    fixed-height: false;
+    fixed-columns: true;
+    cycle: false;
+    scrollbar: false;
+    border: 0px solid;
+}
+
+window {
+    transparency: "real";
+    width: 450px;
+    border-radius: @b-radius;
+    background-color: transparent;
+    border: @w-border;
+    border-color: @w-border-color;
+    padding: @w-padding;
+}
+
+prompt {
+    text-color: @fg-color;
+}
+
+inputbar {
+    children: ["prompt", "entry"];
+    spacing: @g-spacing;
+}
+
+entry {
+    placeholder: "...";
+    text-color: @fg-color;
+    placeholder-color: @fgp-color;
+}
+
+mainbox {
+    spacing: @g-spacing;
+    margin: @g-margin;
+    padding: @g-padding;
+    children: ["inputbar", "listview", "message"];
+}
+
+element {
+    spacing: @g-spacing;
+    margin: @g-margin;
+    padding: @g-padding;
+    border: 0px solid;
+    border-radius: @b-radius;
+    border-color: @b-color;
+    background-color: transparent;
+    text-color: @fg-color;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @fg-color;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @fg-color;
+}
+
+element selected.active {
+    background-color: @hl-color;
+    text-color: @hlt-color;
+}
+
+element selected.normal {
+    background-color: @hl-color;
+    text-color: @hlt-color;
+}
+
+message {
+    background-color: #a0006dFF; /* client.urgent background */
+    text-color: #FFFFFFFF;      /* client.urgent text */
+    border: 0px solid;
+    border-radius: @b-radius;   /* Apply rounded corners */
+    padding: @g-padding;        /* Add padding for spacing */
+    text-align: center;         /* Center the text for a cleaner look */
+}
