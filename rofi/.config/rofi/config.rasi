@@ -22,8 +22,6 @@
     w-padding: 12px;
 }
 
-
-
 listview {
     columns: 1;
     lines: 7;
@@ -38,7 +36,7 @@ window {
     transparency: "real";
     width: 450px;
     border-radius: @b-radius;
-    background-color: transparent;
+    background-color: @wbg-color;
     border: @w-border;
     border-color: @w-border-color;
     padding: @w-padding;
