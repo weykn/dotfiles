@@ -5,13 +5,13 @@ function fcd
     end
 
     if test -d "$choice"
-        cd "$choice"
-        echo "Changed directory: $choice"
+        set dir "$choice"
+        set cmd "cd $dir"
     else
-        set new_path (dirname "$choice")
-        cd $new_path
-        echo "Changed directory: $new_path"
+        set dir (dirname "$choice")
+        set name (basename "$choice")
+        set cmd "cd $dir # $name"
     end
-    
-    commandline -f repaint
+
+    commandline -i $cmd
 end
