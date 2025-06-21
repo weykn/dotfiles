@@ -4,14 +4,5 @@ function fcd
         return
     end
 
-    if test -d "$choice"
-        set dir "$choice"
-        set cmd "cd $dir"
-    else
-        set dir (dirname "$choice")
-        set name (basename "$choice")
-        set cmd "cd $dir # $name"
-    end
-
-    commandline -i $cmd
+    commandline -i $choice
 end
