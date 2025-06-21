@@ -6,9 +6,9 @@
 
 | Keys       | Action                             |
 | ---------- | ---------------------------------- |
-| `Ctrl + T` | 🔍 Fuzzy find command (`fcmd`)     |
+| `Ctrl + T` | 🔍 Fuzzy command (`fcmd`)     |
 | `Ctrl + H` | 🕘 Fuzzy history (`fhist`) |
-| `Ctrl + F` | 📁 Fuzzy change directory (`fcd`)  |
+| `Ctrl + F` | 📁 Fuzzy path (`fpath`)  |
  
 ---
 
