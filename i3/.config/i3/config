@@ -28,6 +28,9 @@ client.placeholder      #1e1b22  #1e1b22   #ffffff  #1e1b22    #1e1b22
 client.background       #f5f0fa
 
 # Autostart
+exec_always --no-startup-id udiskie --tray &
+exec_always --no-startup-id thunar --daemon &
+exec_always --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id clipmenud
 exec_always --no-startup-id sh -c 'pkill -x polybar; polybar'
 exec_always --no-startup-id sh -c 'pkill -x picom; picom'

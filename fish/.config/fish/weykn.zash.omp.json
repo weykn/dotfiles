@@ -27,6 +27,12 @@
           "style": "plain",
           "template": " \uf119",
           "type": "status"
+        },
+        {
+          "foreground": "green",
+          "style": "plain",
+          "template": " ",
+          "type": "text"
         }
       ],
       "type": "prompt"
