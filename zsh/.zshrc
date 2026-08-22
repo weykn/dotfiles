@@ -4,7 +4,7 @@
 # ============================================================
 
 # ---------- environment ----------
-export EDITOR="${EDITOR:-nvim}"
+export EDITOR="${EDITOR:-vim}"
 export VISUAL="$EDITOR"
 export PAGER="${PAGER:-less}"
 export LESS="-R"
