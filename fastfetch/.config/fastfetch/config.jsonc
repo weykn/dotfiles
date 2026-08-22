@@ -1,0 +1,115 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": { 
+  },
+  "display": {
+    "separator": " : "
+  },
+  "modules": [
+    "break",
+    {
+      "type": "title",
+      "key": "  ",
+      "format": "{6} {7} {8}"
+    },
+    {
+      "type": "custom",
+      "format": "┌──────────────────────────────────────────┐"
+    },
+    {
+      "type": "os",
+      "key": "  󰣇 OS      ",
+      "format": "{2}",
+      "keyColor": "#d0546e"
+    },
+    {
+      "type": "kernel",
+      "key": "   Kernel  ",
+      "format": "{2}",
+      "keyColor": "#d8746c"
+    },
+    {
+      "type": "packages",
+      "key": "  󰏗 Packages",
+      "keyColor": "#de9570"
+    },
+    {
+      "type": "display",
+      "key": "  󰍹 Display ",
+      "format": "{1}x{2} @ {3}Hz",
+      "keyColor": "#dfb681"
+    },
+    {
+      "type": "terminal",
+      "key": "   Terminal",
+      "keyColor": "#d0c688"
+    },
+    {
+      "type": "terminalfont",
+      "key": "   Font    ",
+      "keyColor": "#b9cd8a"
+    },
+    {
+      "type": "shell",
+      "key": "   Shell   ",
+      "keyColor": "#9dc88a"
+    },
+    {
+      "type": "wm",
+      "key": "  󱗃 WM      ",
+      "format": "{2}",
+      "keyColor": "#89c695"
+    },
+    {
+      "type": "cpu",
+      "format": "{1}",
+      "key": "   CPU     ",
+      "keyColor": "#81cdb5"
+    },
+    {
+      "type": "gpu",
+      "format": "{2}",
+      "key": "  󰊴 GPU     ",
+      "keyColor": "#85cfd0"
+    },
+    {
+      "type": "memory",
+      "key": "  󰘚 Memory  ",
+      "keyColor": "#8fd0e8"
+    },
+    {
+      "type": "disk",
+      "key": "  󰋊 Disk    ",
+      "format": "{1} / {2} ({3})",
+      "keyColor": "#7bb8e2"
+    },
+    {
+      "type": "localip",
+      "key": "   IP      ",
+      "keyColor": "#75a5dd"
+    },
+    {
+      "type": "command",
+      "key": "  󱦟 OS Age  ",
+      "keyColor": "#889ed9",
+      "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
+    },
+    {
+      "type": "uptime",
+      "key": "  󱫐 Uptime  ",
+      "keyColor": "#9996d5"
+    },
+    {
+      "type": "battery",
+      "key": "  \uf240 Battery ",
+      "format": "{4} {5}",
+      "id": "BAT0",
+      "keyColor": "#a98fd0"
+    },
+    {
+      "type": "custom",
+      "format": "└──────────────────────────────────────────┘"
+    },
+    "break"
+  ]
+}

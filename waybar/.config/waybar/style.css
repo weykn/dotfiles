@@ -1,0 +1,157 @@
+/* Waybar — floating islands, blue palette */
+
+@define-color island   rgba(27, 30, 34, 0.86);
+@define-color edge     rgba(110, 168, 222, 0.22);
+@define-color fg       #e8eef7;
+@define-color fg_dim   #8f9aa8;
+@define-color accent   #6ea8de;
+@define-color accent2  #8fd0e8;
+@define-color urgent   #d0546e;
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+/* the bar itself is invisible — each island carries the background */
+window#waybar {
+    background: transparent;
+    color: @fg;
+}
+
+window#waybar.hidden { opacity: 0.2; }
+
+/* ---------- shared island shape ---------- */
+#workspaces,
+#window,
+#clock,
+#stats,
+#system,
+#tray {
+    background: @island;
+    border: 1px solid @edge;
+    border-radius: 14px;
+    margin: 2px 0;
+    padding: 0 6px;
+}
+
+/* ---------- workspaces ---------- */
+#workspaces {
+    padding: 0 4px;
+    margin-right: 8px;
+}
+
+#workspaces button {
+    color: @fg_dim;
+    background: transparent;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin: 4px 2px;
+    transition: background 150ms ease, color 150ms ease;
+}
+
+#workspaces button:hover {
+    background: rgba(110, 168, 222, 0.16);
+    color: @fg;
+}
+
+#workspaces button.active {
+    background: @accent;
+    color: #12161b;
+    font-weight: 700;
+}
+
+#workspaces button.urgent {
+    background: @urgent;
+    color: #ffffff;
+}
+
+/* ---------- window title ---------- */
+#window {
+    color: @fg_dim;
+    padding: 0 16px;
+    font-weight: 400;
+}
+
+/* hide the empty title island when nothing is focused */
+window#waybar.empty #window {
+    background: transparent;
+    border-color: transparent;
+}
+
+/* ---------- clock ---------- */
+#clock {
+    color: @accent2;
+    font-weight: 700;
+    padding: 0 18px;
+    letter-spacing: 0.4px;
+}
+
+/* ---------- grouped islands ---------- */
+#stats,
+#system {
+    padding: 0 4px;
+    margin-left: 8px;
+}
+
+#stats widget,
+#system widget {
+    padding: 0;
+}
+
+#cpu, #memory, #temperature, #disk,
+#pulseaudio, #network, #language {
+    padding: 0 10px;
+    margin: 4px 1px;
+    border-radius: 10px;
+    color: @fg;
+    background: transparent;
+    transition: background 150ms ease;
+}
+
+#cpu:hover, #memory:hover, #temperature:hover, #disk:hover,
+#pulseaudio:hover, #network:hover, #language:hover {
+    background: rgba(110, 168, 222, 0.12);
+}
+
+#cpu         { color: @accent; }
+#memory      { color: @accent2; }
+#disk        { color: @fg_dim; }
+#temperature { color: @fg; }
+#language    { color: @accent; }
+
+#temperature.critical {
+    color: #ffffff;
+    background: @urgent;
+}
+
+#pulseaudio        { color: @accent2; }
+#pulseaudio.muted  { color: @fg_dim; }
+
+#network              { color: @accent; padding: 0 12px; }
+#network.disconnected { color: @urgent; }
+
+/* ---------- tray ---------- */
+#tray {
+    padding: 0 12px;
+    margin-left: 8px;
+}
+
+#tray > .passive          { -gtk-icon-effect: dim; }
+#tray > .needs-attention  { -gtk-icon-effect: highlight; }
+
+/* ---------- tooltips ---------- */
+tooltip {
+    background: rgba(20, 23, 27, 0.97);
+    border: 1px solid @edge;
+    border-radius: 10px;
+}
+
+tooltip label {
+    color: @fg;
+    padding: 6px;
+}
