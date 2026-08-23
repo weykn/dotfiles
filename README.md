@@ -44,7 +44,6 @@
 | `eza` | CLI | `ls`/`ll`/`la` aliases in `.zshrc` |
 | `bat` | CLI | `catt` alias / pager for file viewing |
 | `fd` | CLI | Fast find; also the finder backend for fzf |
-| `ripgrep` | CLI | Fast grep — **not referenced anywhere in the dotfiles**; fzf uses `fd`, not `rg` |
 | `fzf` | CLI | Fuzzy-finder keybindings in `.zshrc` |
 | `zoxide` | CLI | The `z` jump-to-directory command |
 | `less` | CLI | Pager used by git, man and the shell |
