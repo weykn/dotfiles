@@ -1,12 +1,17 @@
 -- ============================================================
 --  Hyprland — Lua config (0.56+ format)
---  Ported 1:1 from the i3 config; hyprland.conf kept as fallback.
+--  THIS is the file Hyprland loads: given both, it prefers hyprland.lua over
+--  hyprland.conf, so a stray .conf next to this one would silently do nothing.
+--  Ported 1:1 from the old i3 config.
 -- ============================================================
 
 local mod      = "SUPER"
 local terminal = "foot"
 local menu     = "fuzzel"
 local scripts  = os.getenv("HOME") .. "/.config/hypr/scripts"
+-- SDDM starts the session without ~/.local/bin on PATH, so anything stowed
+-- from the `bin` package has to be bound by absolute path.
+local bin      = os.getenv("HOME") .. "/.local/bin"
 
 -- ---------- Blue palette ----------
 local c = {
@@ -45,7 +50,8 @@ hl.on("hyprland.start", function()
     -- clipmenud -> cliphist
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    -- nm-applet / dex are not installed; see hyprland.conf notes.
+    -- nm-applet / dex are not installed here, so the equivalent i3 lines are
+    -- left off on purpose; add them back if you ever install them.
 end)
 
 -- ---------- Look & feel ----------
@@ -170,6 +176,7 @@ hl.bind(mod .. " + S",      hl.dsp.exec_cmd(scripts .. "/screenshot.sh")) -- was
 hl.bind(mod .. " + E",      hl.dsp.exec_cmd("hyprlock"))                  -- was: i3lock -c 000000
 hl.bind(mod .. " + C",      hl.dsp.exec_cmd(scripts .. "/calc.sh"))       -- was: rofi -show calc
 hl.bind(mod .. " + P",      hl.dsp.exec_cmd(scripts .. "/power.sh"))
+hl.bind(mod .. " + G",      hl.dsp.exec_cmd(bin .. "/game-runner"))      -- Steam game picker
 
 -- scratchpad
 hl.bind(mod .. " + minus", hl.dsp.window.move({ workspace = "special:scratch", follow = false }))

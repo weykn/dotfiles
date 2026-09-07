@@ -1,0 +1,9 @@
+# stow leaves these behind when a package is restowed
+.stow-local-ignore
+*.orig
+*.rej
+
+# editor / OS noise
+*.swp
+*~
+.DS_Store
