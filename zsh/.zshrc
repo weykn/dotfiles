@@ -11,8 +11,8 @@ export LESS="-R"
 
 # graphical password prompt for sudo when there is no TTY
 # (Claude Code's `!` prompt, keybind-launched scripts, etc). Use: sudo -A <cmd>
-export PATH="$HOME/.local/bin:$PATH"
-[[ -x $HOME/.local/bin/askpass.sh ]] && export SUDO_ASKPASS="$HOME/.local/bin/askpass.sh"
+export PATH="$HOME/.local/bin:$HOME/.config/scripts:$PATH"
+[[ -x $HOME/.config/scripts/askpass.sh ]] && export SUDO_ASKPASS="$HOME/.config/scripts/askpass.sh"
 
 # terminal depends on the session: foot under Wayland, kitty under X11/i3
 if [[ -n $WAYLAND_DISPLAY ]]; then

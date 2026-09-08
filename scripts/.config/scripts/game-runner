@@ -1,18 +1,7 @@
 #!/bin/bash
-#
-# Pick a Steam game from a dmenu-style launcher and run it.
-#
-#   game-runner [-l launcher] [-v path/to/libraryfolders.vdf]
-#
-# Originally https://github.com/bongjutsu/game-runner @ 8fb1f1a, since rewritten
-# for this setup: Steam's own display names and icons, non-Steam shortcuts read
-# from shortcuts.vdf rather than the stale name list in screenshots.vdf.
-#
-# Icons are cached as PNG under $XDG_CACHE_HOME/game-runner — Steam ships them
-# as JPEG and fuzzel is built with PNG/SVG support only.
 set -uo pipefail
 
-launcher=""   # set below once the entry count is known, unless -l overrides it
+launcher=""
 vdf="${HOME}/.steam/steam/steamapps/libraryfolders.vdf"
 
 while getopts ":v:l:" opt; do
@@ -31,7 +20,6 @@ fi
 CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/game-runner/icons"
 mkdir -p "$CACHE"
 
-# name <TAB> icon <TAB> rungameid, one game per line
 catalogue=$(STEAM_VDF="$vdf" STEAM_CACHE="$CACHE" python3 - <<'PY'
 import os, re, struct, glob, subprocess, shutil
 
@@ -40,12 +28,10 @@ CACHE = os.environ["STEAM_CACHE"]
 HOME  = os.path.expanduser("~")
 MAGICK = shutil.which("magick") or shutil.which("convert")
 
-# Steam ships these as apps but none of them are games.
 SKIP = re.compile(r"^(Proton\b|Steam Linux Runtime|Steamworks Common Redist)", re.I)
 
 
 def icon_png(appid, source):
-    """Cache `source` as a PNG fuzzel can render; return the path or ''."""
     if not source or not os.path.exists(source):
         return ""
     if source.lower().endswith(".png"):
@@ -63,13 +49,11 @@ def icon_png(appid, source):
 
 
 def steam_icon(libs, appid):
-    """Steam's 32x32 app icon: librarycache/<appid>/<40-hex>.jpg."""
     for lib in libs:
         d = os.path.join(lib, "appcache", "librarycache", str(appid))
         for f in glob.glob(os.path.join(d, "*.jpg")):
             if re.fullmatch(r"[0-9a-f]{40}\.jpg", os.path.basename(f)):
                 return f
-        # older Steam kept it flat, and some apps only have cover art
         for name in (f"{appid}_icon.jpg", "library_600x900.jpg", "header.jpg"):
             p = os.path.join(d, name)
             if os.path.exists(p):
@@ -78,13 +62,11 @@ def steam_icon(libs, appid):
 
 
 libs = re.findall(r'"path"\s*"([^"]+)"', open(VDF, encoding="utf-8", errors="replace").read())
-# librarycache lives under the main Steam dir, which is not always a library root
 libs = list(dict.fromkeys(libs + [os.path.join(HOME, ".local/share/Steam"),
                                   os.path.join(HOME, ".steam/steam")]))
 
 games = {}
 
-# ---- installed Steam apps -------------------------------------------------
 for lib in libs:
     for acf in glob.glob(os.path.join(lib, "steamapps", "*.acf")):
         try:
@@ -98,8 +80,6 @@ for lib in libs:
         appid, name = appid.group(1), name.group(1)
         games[appid] = (name, icon_png(appid, steam_icon(libs, appid)))
 
-# ---- non-Steam shortcuts --------------------------------------------------
-# shortcuts.vdf is the live list; screenshots.vdf keeps deleted entries forever.
 for sc in glob.glob(os.path.join(HOME, ".local/share/Steam/userdata/*/config/shortcuts.vdf")) \
         + glob.glob(os.path.join(HOME, ".steam/steam/userdata/*/config/shortcuts.vdf")):
     try:
@@ -115,9 +95,6 @@ for sc in glob.glob(os.path.join(HOME, ".local/share/Steam/userdata/*/config/sho
         icon     = m.group(5).decode("utf-8", "replace").strip()
         if not name:
             continue
-        # Shortcuts added by dropping an .exe in are named after that .exe, so
-        # the list fills up with "Launcher.exe". The install folder is the name
-        # a person would recognise.
         if re.fullmatch(r"[^/\\]+\.exe", name, re.I):
             folder = os.path.basename(startdir.rstrip("/\\"))
             name = folder if folder else name[:-4]
@@ -131,23 +108,19 @@ PY
 
 [ -z "$catalogue" ] && { echo "no games found" >&2; exit 1; }
 
-# Size the list to the catalogue so fuzzel doesn't pad the window with blank
-# rows, but keep it scrollable once there are more games than fit comfortably.
 if [ -z "$launcher" ]; then
     count=$(printf '%s\n' "$catalogue" | wc -l)
     [ "$count" -gt 12 ] && count=12
-    glyph=$(printf '\uf11b')   # nf-fa-gamepad, matches the other menus' prompts
+    glyph=$(printf '\uf11b')
     launcher="fuzzel --dmenu --prompt '$glyph  ' --placeholder 'Search games' --lines $count"
 fi
 
-# fuzzel's dmenu icon protocol is rofi's: LABEL \0 icon \x1f PATH
 chosen=$(printf '%s\n' "$catalogue" | awk -F'\t' '{
     if ($2 != "") printf "%s\0icon\x1f%s\n", $1, $2; else print $1
 }' | eval "$launcher" | head -1)
 
 [ -z "$chosen" ] && exit 2
 
-# map the label back to its id; the label is the whole first tab-separated field
 id=$(printf '%s\n' "$catalogue" | awk -F'\t' -v want="$chosen" '$1 == want { print $3; exit }')
 id=${id//[^0-9]/}
 [ -z "$id" ] && exit 2

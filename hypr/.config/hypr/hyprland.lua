@@ -8,10 +8,9 @@
 local mod      = "SUPER"
 local terminal = "foot"
 local menu     = "fuzzel"
-local scripts  = os.getenv("HOME") .. "/.config/hypr/scripts"
--- SDDM starts the session without ~/.local/bin on PATH, so anything stowed
--- from the `bin` package has to be bound by absolute path.
-local bin      = os.getenv("HOME") .. "/.local/bin"
+-- SDDM starts the session without ~/.config/scripts on PATH, so everything
+-- stowed from the `scripts` package is bound by absolute path.
+local scripts  = os.getenv("HOME") .. "/.config/scripts"
 
 -- ---------- Blue palette ----------
 local c = {
@@ -176,7 +175,7 @@ hl.bind(mod .. " + S",      hl.dsp.exec_cmd(scripts .. "/screenshot.sh")) -- was
 hl.bind(mod .. " + E",      hl.dsp.exec_cmd("hyprlock"))                  -- was: i3lock -c 000000
 hl.bind(mod .. " + C",      hl.dsp.exec_cmd(scripts .. "/calc.sh"))       -- was: rofi -show calc
 hl.bind(mod .. " + P",      hl.dsp.exec_cmd(scripts .. "/power.sh"))
-hl.bind(mod .. " + G",      hl.dsp.exec_cmd(bin .. "/game-runner"))      -- Steam game picker
+hl.bind(mod .. " + G",      hl.dsp.exec_cmd(scripts .. "/game-runner"))  -- Steam game picker
 
 -- scratchpad
 hl.bind(mod .. " + minus", hl.dsp.window.move({ workspace = "special:scratch", follow = false }))
@@ -213,7 +212,7 @@ for i = 1, 10 do
 end
 
 -- --- session ---
-hl.bind(mod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
+hl.bind(mod .. " + SHIFT + R", hl.dsp.exec_cmd(scripts .. "/reload.sh"))  -- full restart, not just hyprctl reload
 hl.bind(mod .. " + SHIFT + E", hl.dsp.exec_cmd(scripts .. "/exit.sh"))
 
 -- --- floating_modifier ---

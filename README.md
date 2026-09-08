@@ -1,102 +1,25 @@
-# dotfiles_hyprland
-
-Hyprland desktop for Arch, ported from an older i3 setup. Blue palette
-throughout: foot for the terminal, fuzzel for the launcher, waybar for the bar.
-
-## Install
-
-Everything is a [GNU stow](https://www.gnu.org/software/stow/) package — one
-directory per program, mirroring the layout it wants under `$HOME`.
-
-```sh
-git clone https://github.com/<you>/dotfiles_hyprland ~/dotfiles_hyprland
-cd ~/dotfiles_hyprland
-stow --no-folding -t ~ bin fastfetch foot fuzzel gtk hypr mako rofi waybar zsh
-```
-
-Then set a wallpaper once — nothing is shown until you do:
-
-```sh
-~/.config/hypr/scripts/setbg.sh ~/.config/hypr/wallpapers/default.jpg
-```
-
-## Wallpaper
-
-`hyprpaper.conf` and `hyprlock.conf` both point at a single symlink,
-`~/.local/share/wallpapers/current`, and `scripts/setbg.sh` re-points it:
-
-```sh
-setbg.sh ~/Pictures/wall.png   # applies live and persists
-setbg.sh                       # print the current one
-```
-
-Because the configs name the symlink rather than the image, changing wallpaper
-never edits a tracked file, and the desktop and the lock screen can't drift
-apart. The link needs no file extension — both daemons sniff the real format
-with libmagic.
-
-> hyprpaper 0.8 removed the old `preload =` / `wallpaper = MON,path` config keys
-> and the `preload`/`unload` IPC verbs. Configs written for 0.7 and earlier fail
-> to parse and leave every monitor blank.
 
 ## Keybinds
 
-`SUPER` is the modifier. Defined in `hypr/.config/hypr/hyprland.lua`.
-
 | Key | Action |
 |---|---|
-| `Return` | foot |
-| `D` | fuzzel launcher |
-| `G` | game-runner — pick a Steam game from fuzzel |
-| `Q` | close window |
-| `F` / `N` | fullscreen / toggle floating |
-| `H` `J` `K` `L` (or arrows) | focus; `+SHIFT` moves the window |
-| `1`–`0` | workspace; `+SHIFT` sends the window there without following |
-| `minus` / `Y` | send to scratchpad / toggle scratchpad |
-| `U` | toggle split direction |
-| `R` | resize submap (`Escape` or `Return` to leave) |
-| `V` / `period` / `C` | clipboard history / emoji picker / calculator |
-| `S` | screenshot region → swappy |
-| `P` / `E` | power menu / lock |
-| `SHIFT+R` / `SHIFT+E` | reload config / exit Hyprland |
-| `SUPER` + left/right drag | move / resize the window under the cursor |
-| `XF86Audio` raise/lower/mute/micmute | `pactl` on the default sink and source |
+| `SUPER + Return` | foot |
+| `SUPER + D` | fuzzel launcher |
+| `SUPER + G` | `game-runner` - pick a Steam game from fuzzel |
+| `SUPER + V` | `clipboard.sh` - cliphist history through fuzzel |
+| `SUPER + period` | `emoji.sh` - emoji picker from `unicode-emoji` |
+| `SUPER + C` | `calc.sh` - rofi-calc, Enter copies the result |
+| `SUPER + S` | `screenshot.sh` - grim + slurp, annotate in swappy |
+| `SUPER + P` | `power.sh` - power menu |
+| `SUPER + E` | hyprlock |
+| `SUPER + SHIFT + R` | `reload.sh` - force-restart waybar, mako, hyprpaper, hypridle |
+| `SUPER + SHIFT + E` | `exit.sh` - confirm, then exit Hyprland |
 
-Inside the `R` resize submap: `L`/`J` shrink/grow width, `I`/`K` grow/shrink
-height, arrows do the same. `Escape` or `Return` leaves it.
-
-## Layout
-
-| Package | Contents |
-|---|---|
-| `bin` | `~/.local/bin` — `askpass.sh`, `game-runner` |
-| `hypr` | compositor, lock, idle, wallpaper, and the scripts behind the keybinds |
-| `waybar` `mako` `fuzzel` `foot` `rofi` `gtk` `fastfetch` | one config each |
-| `zsh` | `.zshrc` plus the starship prompt |
-
-`hypr` holds `hyprland.lua`, not `hyprland.conf` — given both, Hyprland loads
-the Lua one and silently ignores the other, so there is deliberately only one.
-
-## Games (SUPER+G)
-
-`bin/.local/bin/game-runner` lists installed Steam games and non-Steam shortcuts
-in fuzzel, with Steam's own names and icons, and hands the pick back to
-`steam://rungameid/`.
-
-It started as [bongjutsu/game-runner](https://github.com/bongjutsu/game-runner)
-and was rewritten for this setup:
-
-- names come from the `.acf` manifests verbatim instead of being lowercased
-- Proton, the Steam Linux Runtimes and the redistributables are filtered out
-- non-Steam shortcuts are read from `shortcuts.vdf`, not `screenshots.vdf` —
-  the latter keeps every shortcut you have ever deleted, so the list was full of
-  stale duplicates
-- a shortcut still named after its `.exe` is relabelled with its install folder,
-  so `Launcher.exe` shows up as `Red Dead Redemption 2`
-- Steam ships icons as JPEG and fuzzel is built `+png +svg` only, so they are
-  converted once and cached under `~/.cache/game-runner/icons`
-
-`-l` still takes any dmenu-style launcher, e.g. `game-runner -l dmenu`.
+Because the config is Lua, `hyprctl dispatch` needs a Lua dispatcher:
+`hyprctl dispatch 'hl.dsp.exit()'`, not `hyprctl dispatch exit`. The keyword
+form errors out *and still exits 0*, so it fails silently. For dpms the state
+goes under the key `action` — any other argument means toggle:
+`hyprctl dispatch 'hl.dsp.dpms({action="off"})'`.
 
 ## Packages
 
@@ -109,7 +32,7 @@ and was rewritten for this setup:
 | `xorg-xwayland` | Session | Runs X11-only apps inside the Wayland session |
 | `qt6-wayland` | Session | Lets Qt apps run natively on Wayland (`QT_QPA_PLATFORM=wayland`) |
 | `polkit-gnome` | Session | GUI authentication prompts; started via `exec-once` in `hyprland.lua` |
-| `hyprpaper` | Desktop | Wallpaper daemon (`hyprpaper.conf`, driven by `scripts/setbg.sh`) |
+| `hyprpaper` | Desktop | Wallpaper daemon (`hyprpaper.conf`, driven by `~/.config/scripts/setbg.sh`) |
 | `hypridle` | Desktop | DPMS blank at 15 min and lock-before-sleep |
 | `hyprlock` | Desktop | Lock screen for SUPER+E and the power menu |
 | `waybar` | Desktop | The status bar |
@@ -145,6 +68,7 @@ and was rewritten for this setup:
 | `fastfetch` | Shell | Greeting printed on each new interactive shell |
 | `eza` | CLI | `ls`/`ll`/`la` aliases in `.zshrc` |
 | `bat` | CLI | `catt` alias / pager for file viewing |
+| `glow` | CLI | Markdown renderer |
 | `fd` | CLI | Fast find; also the finder backend for fzf |
 | `fzf` | CLI | Fuzzy-finder keybindings in `.zshrc` |
 | `zoxide` | CLI | The `z` jump-to-directory command |

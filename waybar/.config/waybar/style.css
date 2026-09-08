@@ -1,4 +1,10 @@
-/* Waybar — floating islands, blue palette */
+/* Waybar — floating islands, blue palette
+ *
+ * Layout system (keep these three numbers consistent):
+ *   island gap    = 4px margin on every side of every island  -> 8px between
+ *   island inset  = 3px top/bottom                            -> 30px tall
+ *   chip inset    = 4px top/bottom inside an island           -> 22px tall
+ */
 
 @define-color island   rgba(27, 30, 34, 0.86);
 @define-color edge     rgba(110, 168, 222, 0.22);
@@ -15,6 +21,8 @@
     min-height: 0;
     border: none;
     border-radius: 0;
+    /* tabular figures: percentages and the ticking clock stop jittering */
+    font-feature-settings: "tnum";
 }
 
 /* the bar itself is invisible — each island carries the background */
@@ -25,7 +33,10 @@ window#waybar {
 
 window#waybar.hidden { opacity: 0.2; }
 
-/* ---------- shared island shape ---------- */
+/* ---------- shared island shape ----------
+ * One rule sets the gap for every island, so left/center/right stay symmetric.
+ * Text islands get roomy side padding; islands that hold chips get 4px and let
+ * the chips supply their own padding. */
 #workspaces,
 #window,
 #clock,
@@ -34,35 +45,50 @@ window#waybar.hidden { opacity: 0.2; }
 #tray {
     background: @island;
     border: 1px solid @edge;
-    border-radius: 14px;
-    margin: 2px 0;
-    padding: 0 6px;
-}
-
-/* ---------- workspaces ---------- */
-#workspaces {
-    padding: 0 4px;
-    margin-right: 8px;
-}
-
-#workspaces button {
-    color: @fg_dim;
-    background: transparent;
     border-radius: 10px;
-    padding: 0 10px;
+    margin: 3px 4px;
+    padding: 0 4px;
+}
+
+/* ---------- chips inside islands ----------
+ * Identical padding/margin for every chip is what keeps the icons on a grid. */
+#workspaces button,
+#cpu, #temperature, #memory, #disk,
+#pulseaudio, #network, #language {
+    background: transparent;
+    color: @fg;
+    border-radius: 7px;
+    padding: 0 9px;
     margin: 4px 2px;
     transition: background 150ms ease, color 150ms ease;
 }
 
-#workspaces button:hover {
-    background: rgba(110, 168, 222, 0.16);
-    color: @fg;
+#workspaces button:hover,
+#cpu:hover, #temperature:hover, #memory:hover, #disk:hover,
+#pulseaudio:hover, #network:hover, #language:hover {
+    background: rgba(110, 168, 222, 0.14);
+}
+
+/* group boxes must not add a second layer of padding on top of the chips */
+#stats widget,
+#system widget {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+}
+
+/* ---------- workspaces ---------- */
+#workspaces button {
+    color: @fg_dim;
+    /* fixed width so the row never reflows as workspaces appear/disappear */
+    min-width: 22px;
+    padding: 0 4px;
 }
 
 #workspaces button.active {
     background: @accent;
     color: #12161b;
-    font-weight: 700;
+    /* deliberately NOT bold: a weight change would resize the button */
 }
 
 #workspaces button.urgent {
@@ -73,72 +99,46 @@ window#waybar.hidden { opacity: 0.2; }
 /* ---------- window title ---------- */
 #window {
     color: @fg_dim;
-    padding: 0 16px;
     font-weight: 400;
+    padding: 0 12px;
 }
 
-/* hide the empty title island when nothing is focused */
+/* collapse the title island completely when nothing is focused,
+ * otherwise an empty pill floats next to the workspaces */
 window#waybar.empty #window {
     background: transparent;
     border-color: transparent;
+    padding: 0;
+    margin: 0;
 }
 
 /* ---------- clock ---------- */
 #clock {
     color: @accent2;
     font-weight: 700;
-    padding: 0 18px;
-    letter-spacing: 0.4px;
+    padding: 0 14px;
 }
 
-/* ---------- grouped islands ---------- */
-#stats,
-#system {
-    padding: 0 4px;
-    margin-left: 8px;
-}
-
-#stats widget,
-#system widget {
-    padding: 0;
-}
-
-#cpu, #memory, #temperature, #disk,
-#pulseaudio, #network, #language {
-    padding: 0 10px;
-    margin: 4px 1px;
-    border-radius: 10px;
-    color: @fg;
-    background: transparent;
-    transition: background 150ms ease;
-}
-
-#cpu:hover, #memory:hover, #temperature:hover, #disk:hover,
-#pulseaudio:hover, #network:hover, #language:hover {
-    background: rgba(110, 168, 222, 0.12);
-}
-
+/* ---------- per-module accents ---------- */
 #cpu         { color: @accent; }
 #memory      { color: @accent2; }
 #disk        { color: @fg_dim; }
 #temperature { color: @fg; }
 #language    { color: @accent; }
+#pulseaudio  { color: @accent2; }
+#network     { color: @accent; }
 
 #temperature.critical {
     color: #ffffff;
     background: @urgent;
 }
 
-#pulseaudio        { color: @accent2; }
-#pulseaudio.muted  { color: @fg_dim; }
-
-#network              { color: @accent; padding: 0 12px; }
+#pulseaudio.muted     { color: @fg_dim; }
 #network.disconnected { color: @urgent; }
 
 /* ---------- tray ---------- */
 #tray {
-    padding: 0 12px;
-    margin-left: 8px;
+    padding: 0 8px;
 }
 
 #tray > .passive          { -gtk-icon-effect: dim; }

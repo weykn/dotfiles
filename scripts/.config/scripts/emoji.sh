@@ -1,5 +1,4 @@
 #!/bin/bash
-# Replaces `rofi -show emoji`. Needs the `unicode-emoji` package for the emoji list.
 DB=/usr/share/unicode/emoji/emoji-test.txt
 
 if [ ! -r "$DB" ]; then
