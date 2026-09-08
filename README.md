@@ -15,12 +15,6 @@
 | `SUPER + SHIFT + R` | `reload.sh` - force-restart waybar, mako, hyprpaper, hypridle |
 | `SUPER + SHIFT + E` | `exit.sh` - confirm, then exit Hyprland |
 
-Because the config is Lua, `hyprctl dispatch` needs a Lua dispatcher:
-`hyprctl dispatch 'hl.dsp.exit()'`, not `hyprctl dispatch exit`. The keyword
-form errors out *and still exits 0*, so it fails silently. For dpms the state
-goes under the key `action` — any other argument means toggle:
-`hyprctl dispatch 'hl.dsp.dpms({action="off"})'`.
-
 ## Packages
 
 | Package | Group | Why it's needed |
