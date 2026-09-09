@@ -40,7 +40,7 @@
 | `rofi` | Scripts | Front-end for `calc.sh` (SUPER+C) |
 | `rofi-calc` | Scripts | Calculator mode for rofi; pulls `libqalculate` for the maths |
 | `unicode-emoji` | Scripts | Provides `/usr/share/unicode/emoji/emoji-test.txt` read by `emoji.sh` (SUPER+.) |
-| `glib2` | Desktop | Provides `gsettings`, used by `darkmode.sh` to set the portal's `color-scheme` (see Theming) |
+| `glib2` | Desktop | Provides `gsettings`, used by `darkmode.sh` to set the portal's `color-scheme` |
 | `udisks2` | Storage | Mount/unmount backend for removable media |
 | `udiskie` | Storage | `exec-once = udiskie --tray` — automounts USB drives |
 | `thunar` | Storage | File manager, run as `thunar --daemon` |
