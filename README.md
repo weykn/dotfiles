@@ -14,38 +14,7 @@
 | `SUPER + E` | hyprlock |
 | `SUPER + SHIFT + R` | `reload.sh` - force-restart waybar, mako, hyprpaper, hypridle |
 | `SUPER + SHIFT + E` | `exit.sh` - confirm, then exit Hyprland |
-
-## Theming
-
-Everything is dark, and apps that follow the system ("Device" in Brave/Chromium,
-"Automatic" in Firefox, most Electron apps) pick it up on their own.
-
-Two layers have to agree:
-
-| Layer | Set in | Read by |
-|---|---|---|
-| `gtk-3.0`/`gtk-4.0` `settings.ini` | `gtk/.config/gtk-{3,4}.0/settings.ini` | GTK apps directly |
-| Portal `org.freedesktop.appearance` -> `color-scheme` | `scripts/darkmode.sh`, run from `hyprland.lua` autostart | Chromium/Brave, Firefox, Electron |
-
-The second one is the one that is easy to miss. `settings.ini` is invisible to
-Chromium — it queries `xdg-desktop-portal` over D-Bus instead, and
-`xdg-desktop-portal-gtk` answers from the gsettings key
-`org.gnome.desktop.interface color-scheme`. If that key is left at `default`
-the portal reports `0` ("no preference") and every "follow the system" app
-falls back to **light**, no matter what `settings.ini` says.
-
-`darkmode.sh` sets that key (plus the matching gtk/icon/cursor/font keys) to
-`prefer-dark`. It runs on every session start, is idempotent, and the portal
-emits `SettingChanged`, so already-open windows switch without a restart.
-
-Check what the portal is actually reporting:
-
-```sh
-busctl --user call org.freedesktop.portal.Desktop /org/freedesktop/portal/desktop \
-    org.freedesktop.portal.Settings Read ss \
-    "org.freedesktop.appearance" "color-scheme"
-# v v u 1   -> 0 = no preference, 1 = prefer-dark, 2 = prefer-light
-```
+d`, so already-open windows switch without a restart.
 
 ## Packages
 
