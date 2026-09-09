@@ -16,7 +16,7 @@ exec rofi \
     -modi calc \
     -show calc \
     -no-show-icons \
-    -display-calc " " \
+    -display-calc " " \
     -terse \
     -hint-welcome "2+2  ·  15% of 80  ·  10 GB to MB" \
     -hint-result "" \

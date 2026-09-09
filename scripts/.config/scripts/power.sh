@@ -2,13 +2,13 @@
 font="JetBrainsMono Nerd Font Mono:size=12"
 
 chosen=$(printf '%s\n' \
-    "  Lock" \
-    "  Log out" \
-    "  Reboot" \
-    "  Power off" \
+    "  Lock" \
+    "  Log out" \
+    "  Reboot" \
+    "  Power off" \
     | fuzzel --dmenu \
         --font "$font" \
-        --prompt "  " \
+        --prompt "  " \
         --placeholder "" \
         --no-icons \
         --lines 4 \
