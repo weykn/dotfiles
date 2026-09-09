@@ -14,7 +14,6 @@
 | `SUPER + E` | hyprlock |
 | `SUPER + SHIFT + R` | `reload.sh` - force-restart waybar, mako, hyprpaper, hypridle |
 | `SUPER + SHIFT + E` | `exit.sh` - confirm, then exit Hyprland |
-d`, so already-open windows switch without a restart.
 
 ## Packages
 
