@@ -1,0 +1,10 @@
+# Dolphin defaults; ~/.config/dolphinrc (written by Dolphin itself) wins over these.
+
+[General]
+BrowseThroughArchives=true
+ShowFullPathInTitlebar=true
+RememberOpenedTabs=false
+
+[UiSettings]
+# Outside Plasma an unset scheme means light Breeze, not the kdeglobals palette
+ColorScheme=HyprlandBlue

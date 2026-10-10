@@ -1,0 +1,7 @@
+# Thunar and Dolphin both ship a service for org.freedesktop.FileManager1
+# ("Show in folder" in browsers, Electron apps, ...). This user-level copy is
+# found first, so the name always activates Dolphin.
+[D-BUS Service]
+Name=org.freedesktop.FileManager1
+Exec=/usr/bin/dolphin --daemon
+SystemdService=plasma-dolphin.service

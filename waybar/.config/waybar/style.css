@@ -1,0 +1,157 @@
+/* Waybar — floating islands, blue palette
+ *
+ * Layout system (keep these three numbers consistent):
+ *   island gap    = 4px margin on every side of every island  -> 8px between
+ *   island inset  = 3px top/bottom                            -> 30px tall
+ *   chip inset    = 4px top/bottom inside an island           -> 22px tall
+ */
+
+@define-color island   rgba(27, 30, 34, 0.86);
+@define-color edge     rgba(110, 168, 222, 0.22);
+@define-color fg       #e8eef7;
+@define-color fg_dim   #8f9aa8;
+@define-color accent   #6ea8de;
+@define-color accent2  #8fd0e8;
+@define-color urgent   #d0546e;
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+    /* tabular figures: percentages and the ticking clock stop jittering */
+    font-feature-settings: "tnum";
+}
+
+/* the bar itself is invisible — each island carries the background */
+window#waybar {
+    background: transparent;
+    color: @fg;
+}
+
+window#waybar.hidden { opacity: 0.2; }
+
+/* ---------- shared island shape ----------
+ * One rule sets the gap for every island, so left/center/right stay symmetric.
+ * Text islands get roomy side padding; islands that hold chips get 4px and let
+ * the chips supply their own padding. */
+#workspaces,
+#window,
+#clock,
+#stats,
+#system,
+#tray {
+    background: @island;
+    border: 1px solid @edge;
+    border-radius: 10px;
+    margin: 3px 4px;
+    padding: 0 4px;
+}
+
+/* ---------- chips inside islands ----------
+ * Identical padding/margin for every chip is what keeps the icons on a grid. */
+#workspaces button,
+#cpu, #temperature, #memory, #disk,
+#pulseaudio, #network, #language {
+    background: transparent;
+    color: @fg;
+    border-radius: 7px;
+    padding: 0 9px;
+    margin: 4px 2px;
+    transition: background 150ms ease, color 150ms ease;
+}
+
+#workspaces button:hover,
+#cpu:hover, #temperature:hover, #memory:hover, #disk:hover,
+#pulseaudio:hover, #network:hover, #language:hover {
+    background: rgba(110, 168, 222, 0.14);
+}
+
+/* group boxes must not add a second layer of padding on top of the chips */
+#stats widget,
+#system widget {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+}
+
+/* ---------- workspaces ---------- */
+#workspaces button {
+    color: @fg_dim;
+    /* fixed width so the row never reflows as workspaces appear/disappear */
+    min-width: 22px;
+    padding: 0 4px;
+}
+
+#workspaces button.active {
+    background: @accent;
+    color: #12161b;
+    /* deliberately NOT bold: a weight change would resize the button */
+}
+
+#workspaces button.urgent {
+    background: @urgent;
+    color: #ffffff;
+}
+
+/* ---------- window title ---------- */
+#window {
+    color: @fg_dim;
+    font-weight: 400;
+    padding: 0 12px;
+}
+
+/* collapse the title island completely when nothing is focused,
+ * otherwise an empty pill floats next to the workspaces */
+window#waybar.empty #window {
+    background: transparent;
+    border-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+/* ---------- clock ---------- */
+#clock {
+    color: @accent2;
+    font-weight: 700;
+    padding: 0 14px;
+}
+
+/* ---------- per-module accents ---------- */
+#cpu         { color: @accent; }
+#memory      { color: @accent2; }
+#disk        { color: @fg_dim; }
+#temperature { color: @fg; }
+#language    { color: @accent; }
+#pulseaudio  { color: @accent2; }
+#network     { color: @accent; }
+
+#temperature.critical {
+    color: #ffffff;
+    background: @urgent;
+}
+
+#pulseaudio.muted     { color: @fg_dim; }
+#network.disconnected { color: @urgent; }
+
+/* ---------- tray ---------- */
+#tray {
+    padding: 0 8px;
+}
+
+#tray > .passive          { -gtk-icon-effect: dim; }
+#tray > .needs-attention  { -gtk-icon-effect: highlight; }
+
+/* ---------- tooltips ---------- */
+tooltip {
+    background: rgba(20, 23, 27, 0.97);
+    border: 1px solid @edge;
+    border-radius: 10px;
+}
+
+tooltip label {
+    color: @fg;
+    padding: 6px;
+}

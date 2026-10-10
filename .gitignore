@@ -1,0 +1,6 @@
+.stow-local-ignore
+*.orig
+*.rej
+*.swp
+*~
+.DS_Store

@@ -1,0 +1,5 @@
+# Desktop-specific mimeapps: with XDG_CURRENT_DESKTOP=Hyprland this file is read
+# before ~/.config/mimeapps.list, so these win over whatever apps write there.
+[Default Applications]
+inode/directory=org.kde.dolphin.desktop
+x-scheme-handler/file=org.kde.dolphin.desktop

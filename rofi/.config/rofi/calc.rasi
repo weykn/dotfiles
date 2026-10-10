@@ -1,0 +1,68 @@
+/* rofi calc (SUPER+C) — styled to match the fuzzel launcher (SUPER+D).
+   palette: bg #1b1e22 · accent #6ea8de · fg #e8eef7 · dim #8f9aa8 */
+
+* {
+    bg:        #1b1e22f0;
+    fg:        #e8eef7ff;
+    fg-dim:    #8f9aa8ff;
+    accent:    #6ea8deff;
+    on-accent: #12161bff;
+
+    background-color: transparent;
+    text-color:       @fg;
+    font:             "JetBrainsMono Nerd Font 12";
+    margin:  0;
+    padding: 0;
+    spacing: 0;
+}
+
+/* same 2px accent border, 14px radius, 22px/18px padding and
+   ~525px width as the fuzzel launcher */
+window {
+    transparency:     "real";
+    location:         center;
+    width:            525px;
+    border:           2px;
+    border-color:     @accent;
+    border-radius:    14px;
+    background-color: @bg;
+    padding:          18px 22px;
+    children:         [ mainbox ];
+}
+
+/* result only — the history list is disabled, so it is left out of the
+   layout. Enter still fires -calc-command on the current result. */
+mainbox {
+    spacing:  14px;
+    children: [ inputbar, message ];
+}
+
+inputbar {
+    spacing:  10px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color:     @accent;
+    vertical-align: 0.5;
+}
+
+entry {
+    placeholder:       "Type an expression";
+    placeholder-color: @fg-dim;
+    text-color:        @fg;
+    cursor:            text;
+    vertical-align:    0.5;
+}
+
+/* the result row — mirrors fuzzel's selected entry */
+message {
+    background-color: @accent;
+    border-radius:    10px;
+}
+
+textbox {
+    padding:        11px 14px;
+    text-color:     @on-accent;
+    vertical-align: 0.5;
+}
