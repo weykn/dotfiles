@@ -182,16 +182,24 @@ hl.window_rule({
 
 -- Any game launched by Steam (native ones like cs2 too): Steam puts SteamAppId
 -- into the game's environment, so tile every window whose process has it
+-- (XWayland games like cs2 get floated *after* window.open fires, so re-check
+-- a moment later instead of trusting w.floating at open time)
 hl.on("window.open", function(w)
-    if not w or not w.floating or not w.pid then return end
+    if not w or not w.pid then return end
     local f = io.open("/proc/" .. w.pid .. "/environ", "rb")
     if not f then return end
     local env = f:read("a")
     f:close()
     local appid = ("\0" .. (env or "")):match("\0SteamAppId=(%d+)")
-    if appid and appid ~= "0" then
-        hl.dispatch(hl.dsp.window.float({ action = "disable", window = w }))
+    if not appid or appid == "0" then return end
+    local function tile()
+        if w.floating then
+            hl.dispatch(hl.dsp.window.float({ action = "disable", window = w }))
+        end
     end
+    tile()
+    hl.timer(tile, { timeout = 300, type = "oneshot" })
+    hl.timer(tile, { timeout = 1500, type = "oneshot" })
 end)
 
 -- ---------- Layer rules ----------
@@ -246,16 +254,11 @@ hl.bind(mod .. " + F",      hl.dsp.window.fullscreen())
 hl.bind(mod .. " + N",      hl.dsp.window.float({ action = "toggle" }))
 
 -- --- focus (hjkl + arrows) ---
-local dirs = { { "H", "left" }, { "J", "down" }, { "K", "up" }, { "L", "right" } }
-for _, d in ipairs(dirs) do
-    hl.bind(mod .. " + " .. d[1],         hl.dsp.focus({ direction = d[2] }))
-    hl.bind(mod .. " + SHIFT + " .. d[1], hl.dsp.window.move({ direction = d[2] }))
-end
-
-local arrows = { { "left", "left" }, { "down", "down" }, { "up", "up" }, { "right", "right" } }
-for _, a in ipairs(arrows) do
-    hl.bind(mod .. " + " .. a[1],         hl.dsp.focus({ direction = a[2] }))
-    hl.bind(mod .. " + SHIFT + " .. a[1], hl.dsp.window.move({ direction = a[2] }))
+local dirs = { H = "left", J = "down", K = "up", L = "right",
+               left = "left", down = "down", up = "up", right = "right" }
+for key, dir in pairs(dirs) do
+    hl.bind(mod .. " + " .. key,         hl.dsp.focus({ direction = dir }))
+    hl.bind(mod .. " + SHIFT + " .. key, hl.dsp.window.move({ direction = dir }))
 end
 
 -- --- workspaces 1-10, move does NOT follow (like i3) ---
