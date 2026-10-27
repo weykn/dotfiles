@@ -87,7 +87,7 @@ hl.config({
             inactive_border = c.unfocused,
         },
         resize_on_border = true,
-        allow_tearing    = false,
+        allow_tearing    = true,  -- only windows with the "immediate" rule tear
         layout           = "dwindle",
     },
 
@@ -178,6 +178,18 @@ hl.window_rule({
     match          = { content = "game" },
     tile           = true,
     suppress_event = "fullscreen maximize fullscreenoutput activate activatefocus",
+})
+
+-- Let games skip vsync for lower input latency (tears only when fullscreen)
+hl.window_rule({
+    name      = "games-immediate",
+    match     = { content = "game" },
+    immediate = true,
+})
+hl.window_rule({
+    name      = "steam-games-immediate",
+    match     = { class = "^(steam_app_.*|cs2)$" },
+    immediate = true,
 })
 
 -- Any game launched by Steam (native ones like cs2 too): Steam puts SteamAppId
