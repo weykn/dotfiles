@@ -25,3 +25,7 @@ default-timeout=3000
 [urgency=critical]
 border-color=#d0546e
 default-timeout=0
+
+# set by scripts/screenshot.sh while the screen is frozen
+[mode=screenshot-freeze]
+invisible=1

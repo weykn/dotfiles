@@ -20,16 +20,14 @@ local c = {
 }
 
 -- ---------- Monitors ----------
--- i3: xrandr --output HDMI-2 --auto --primary --output HDMI-1 --auto --right-of HDMI-2
--- Dell P2213 on DP: its EDID 1680x1050 timing (146.25 MHz) makes it loop "power saving",
--- so use the CVT reduced-blanking timing (119 MHz) instead
-hl.monitor({ output = "DP-1",     mode = "modeline 119.00 1680 1728 1760 1840 1050 1053 1059 1080 +hsync -vsync", position = "0x0", scale = 1 })
-hl.monitor({ output = "HDMI-A-1", mode = "2560x1440@144", position = "1680x0", scale = 1 })
+-- Xiaomi on HDMI: its EDID caps that port at 144 Hz (600 MHz max dotclock), so 200 isn't available there
+hl.monitor({ output = "DP-1",     mode = "2560x1440@200", position = "2560x0", scale = 1 })
+hl.monitor({ output = "HDMI-A-1", mode = "2560x1440@144", position = "0x0",    scale = 1 })
 hl.monitor({ output = "",         mode = "preferred",     position = "auto",   scale = "auto" })
 
--- Samsung (HDMI) is the main screen: workspace 1 starts there, 2 on the Dell
-hl.workspace_rule({ workspace = "1", monitor = "HDMI-A-1", default = true })
-hl.workspace_rule({ workspace = "2", monitor = "DP-1",     default = true })
+-- DP is the main screen: workspace 1 starts there, 2 on the HDMI to its left
+hl.workspace_rule({ workspace = "1", monitor = "DP-1",     default = true })
+hl.workspace_rule({ workspace = "2", monitor = "HDMI-A-1", default = true })
 
 -- ---------- Environment ----------
 hl.env("XCURSOR_SIZE", "24")
@@ -234,6 +232,19 @@ hl.layer_rule({
     name  = "blur-notifications",
     match = { namespace = "notifications" },
     blur  = true,
+})
+
+-- screenshot.sh captures right after slurp exits; a fade-out would land in the shot
+hl.layer_rule({
+    name    = "screenshot-selection-no-anim",
+    match   = { namespace = "selection" },
+    no_anim = true,
+})
+
+hl.layer_rule({
+    name    = "screenshot-freeze-no-anim",
+    match   = { namespace = "hyprpicker" },
+    no_anim = true,
 })
 
 -- ============================================================
